@@ -1,0 +1,94 @@
+mql5
+//+------------------------------------------------------------------+
+//|                                                    PriceAction.mq5|
+//|                  Copyright 2021, Forex Robot Easy Team           |
+//|                     https://www.forexroboteasy.com                |
+//+------------------------------------------------------------------+
+
+//+------------------------------------------------------------------+
+//|                            Constants                              |
+//+------------------------------------------------------------------+
+#property strict
+
+// Account size requirement
+const double MIN_ACCOUNT_SIZE = 500.0;
+
+// Trading hours
+const int TRADING_HOURS_START = 15; // Adjusted for GMT 3 timezone
+const int TRADING_HOURS_END = 32;   // Adjusted for GMT 3 timezone
+
+//+------------------------------------------------------------------+
+//|                           Structures                              |
+//+------------------------------------------------------------------+
+struct TradeSignal
+{
+   double entryPrice;
+   double stopLoss;
+   double takeProfit;
+};
+
+//+------------------------------------------------------------------+
+//|                      Price Action Sketcher                        |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+   if (!IsTradingHours())
+      return;
+
+   double currentPrice = MarketInfo(Symbol(), MODE_BID);
+   TradeSignal signal = GenerateTradeSignal(currentPrice);
+
+   if (signal.entryPrice != 0.0)
+      ExecuteTrade(signal);
+}
+
+//+------------------------------------------------------------------+
+//|                 Price Action Analysis Function                    |
+//+------------------------------------------------------------------+
+TradeSignal GenerateTradeSignal(double currentPrice)
+{
+   // Perform price action analysis and identify potential trade opportunities
+   TradeSignal signal;
+
+   // ... Price action analysis code goes here ...
+
+   return signal;
+}
+
+//+------------------------------------------------------------------+
+//|                 Entry and Exit Signals Functions                  |
+//+------------------------------------------------------------------+
+void ExecuteTrade(TradeSignal signal)
+{
+   // Execute the trade based on the generated signal
+   // ... Trade execution code goes here ...
+}
+
+//+------------------------------------------------------------------+
+//|                     Risk Management Functions                     |
+//+------------------------------------------------------------------+
+double CalculatePositionSize(double stopLoss)
+{
+   // Calculate position size based on the stop-loss level
+   // ... Position sizing calculation code goes here ...
+   return 0.01; // Placeholder value, replace with actual calculation
+}
+
+//+------------------------------------------------------------------+
+//|                   Trade Monitoring Functions                      |
+//+------------------------------------------------------------------+
+void OnTrade()
+{
+   // Monitor open trades, track performance, and provide real-time updates
+   // ... Trade monitoring code goes here ...
+}
+
+//+------------------------------------------------------------------+
+//|                      Helper Functions                             |
+//+------------------------------------------------------------------+
+bool IsTradingHours()
+{
+   // Check if it is within the trading hours
+   int hour = TimeHour(TimeCurrent()) + 3; // Adjusted for GMT 3 timezone
+   return (hour >= TRADING_HOURS_START && hour < TRADING_HOURS_END);
+}
